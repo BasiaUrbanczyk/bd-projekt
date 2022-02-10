@@ -30,7 +30,8 @@
 
 <?php
     $id=$_GET["id"];
-    $link = pg_connect("host='localhost' port='5432' user='postgres' password='Lola1906' dbname='muzeum'");
+    $link = pg_connect("host='ec2-54-155-254-112.eu-west-1.compute.amazonaws.com' port='5432' user='twekjbvjjevmlz' password='a643d1b14c97af5e52f6e7af4596bf3d7d087b998469977476f4a26de70effb2' dbname='d80bef3rqavvdc'");
+
     $result = pg_query($link, "select idtworcy, imie, nazwisko, rokurodzenia, roksmierci from tworca where idtworcy = $id");
     $numrows = pg_num_rows($result);
 

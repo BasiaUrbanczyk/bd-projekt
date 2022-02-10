@@ -32,7 +32,7 @@ $numrows = pg_num_rows($result);
 
 <h1 class="h1-text">EKSPONATY</h1>
 <?php
-    $link2 = './index.html';
+    $link2 = './index.php';
     $wroc = "Wróć do poprzedniej strony.";
     echo "<a href='".$link2."'> $wroc </a> ";
 ?>

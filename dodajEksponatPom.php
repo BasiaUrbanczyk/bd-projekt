@@ -60,7 +60,7 @@
                 $wypozyczalne = 0;
             }
     
-            $link = pg_connect("host='localhost' port='5432' user='postgres' password='Lola1906' dbname='muzeum'");
+            $link = pg_connect("host='ec2-54-155-254-112.eu-west-1.compute.amazonaws.com' port='5432' user='twekjbvjjevmlz' password='a643d1b14c97af5e52f6e7af4596bf3d7d087b998469977476f4a26de70effb2' dbname='d80bef3rqavvdc'");
             $result = pg_query($link, "select * from eksponat left join tworca on eksponat.idtworcy = tworca.idtworcy where tytul like '$tytul' and nazwisko like '$nazwisko' and typ like '$typ'");
             $numrows = pg_num_rows($result);
     
