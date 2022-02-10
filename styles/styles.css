@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+    background-color: black;
+    margin-top: 100px;
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    min-height: 500px;
+}
+.btn {
+    background-color: goldenrod;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px;
+    cursor: pointer;
+    min-width: 300px;
+}
+
+.btn:hover {
+    background-color: white;
+    color: black;
+}
+
+.login-input {
+    background-color: white;
+    border: none;
+    color: goldenrod;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 2px;
+    min-width: 300px;
+}
+
+.h1-text {
+    color: goldenrod;
+    font-size: 24px;
+    text-align: center;
+}
+
+.h2-text {
+    color: powderblue;
+    font-size: 18px;
+    text-align: center;
+}
+
+.error-text {
+    color: red;
+    font-size: 12px;
+    display: flex;
+    position: absolute;
+    margin-top: 220px;
+}
