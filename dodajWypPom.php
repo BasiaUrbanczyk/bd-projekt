@@ -72,7 +72,7 @@
                 $rowInstytucjaa = pg_num_rows($tempp);
                 $indeksinst = pg_query($link, "select max(idinstytucji) from instytucja");
                 if($rowInstytucjaa == 0){
-                    $idinstytucji = 0;
+                    $idInstytucji = 0;
                 }
                 else{
                     $row = pg_fetch_array($indeksinst, 0);
