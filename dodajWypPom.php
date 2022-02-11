@@ -63,7 +63,7 @@
         $koniec = $row["to_date"];
 
         if($numrowsEksp == 0 && $numrowsMag == 0 && $numrowsWyp == 0){ //mozna dodac
-            $instytucja = pg_query($link, "select * from instytucja where nazwa = '$nazwa'");
+            $instytucja = pg_query($link, "select * from instytucja where nazwa like '$nazwa'");
             $rowsIns = pg_num_rows($instytucja);
             $idInstytucji;
 
