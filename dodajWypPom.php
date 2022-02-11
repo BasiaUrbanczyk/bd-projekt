@@ -48,70 +48,69 @@
 
     else{
         $resultEkspozycja = pg_query($link, "select * from (select idekspozycji, poczatek, koniec, eksponat.ideksponatu, idgalerii, sala from eksponat left join ekspozycja on ekspozycja.ideksponatu=eksponat.ideksponatu where eksponat.ideksponatu = $id and poczatek <= (TO_DATE('$koniec','YYYYMMDD')) and koniec >= (TO_DATE('$poczatek','YYYYMMDD'))) as a left join galeria on galeria.idgalerii = a.idgalerii");
-    $resultWypozyczenie = pg_query($link, "select * from (select idwypozyczenia, poczatek, koniec, eksponat.ideksponatu, idinstytucji from eksponat left join wypozyczenie on wypozyczenie.ideksponatu=eksponat.ideksponatu where eksponat.ideksponatu = $id and poczatek <= (TO_DATE('$koniec','YYYYMMDD')) and koniec >= (TO_DATE('$poczatek','YYYYMMDD'))) as a left join instytucja on instytucja.idinstytucji = a.idinstytucji");
-    $resultMagazynowanie = pg_query($link, "select idmagazynowania, poczatek, koniec, eksponat.ideksponatu from eksponat left join magazynowanie on magazynowanie.ideksponatu=eksponat.ideksponatu where eksponat.ideksponatu = $id and poczatek <= (TO_DATE('$koniec','YYYYMMDD')) and koniec >= (TO_DATE('$poczatek','YYYYMMDD'))");
-    $numrowsEksp = pg_num_rows($resultEkspozycja);
-    $numrowsWyp = pg_num_rows($resultWypozyczenie);
-    $numrowsMag = pg_num_rows($resultMagazynowanie);
+        $resultWypozyczenie = pg_query($link, "select * from (select idwypozyczenia, poczatek, koniec, eksponat.ideksponatu, idinstytucji from eksponat left join wypozyczenie on wypozyczenie.ideksponatu=eksponat.ideksponatu where eksponat.ideksponatu = $id and poczatek <= (TO_DATE('$koniec','YYYYMMDD')) and koniec >= (TO_DATE('$poczatek','YYYYMMDD'))) as a left join instytucja on instytucja.idinstytucji = a.idinstytucji");
+        $resultMagazynowanie = pg_query($link, "select idmagazynowania, poczatek, koniec, eksponat.ideksponatu from eksponat left join magazynowanie on magazynowanie.ideksponatu=eksponat.ideksponatu where eksponat.ideksponatu = $id and poczatek <= (TO_DATE('$koniec','YYYYMMDD')) and koniec >= (TO_DATE('$poczatek','YYYYMMDD'))");
+        $numrowsEksp = pg_num_rows($resultEkspozycja);
+        $numrowsWyp = pg_num_rows($resultWypozyczenie);
+        $numrowsMag = pg_num_rows($resultMagazynowanie);
 
-    $poczatek = pg_query($link, "select TO_DATE('$poczatek','YYYYMMDD')");
-    $row = pg_fetch_array($poczatek, 0);
-    $poczatek = $row["to_date"];
+        $poczatek = pg_query($link, "select TO_DATE('$poczatek','YYYYMMDD')");
+        $row = pg_fetch_array($poczatek, 0);
+        $poczatek = $row["to_date"];
 
-    $koniec = pg_query($link, "select TO_DATE('$koniec','YYYYMMDD')");
-    $row = pg_fetch_array($koniec, 0);
-    $koniec = $row["to_date"];
+        $koniec = pg_query($link, "select TO_DATE('$koniec','YYYYMMDD')");
+        $row = pg_fetch_array($koniec, 0);
+        $koniec = $row["to_date"];
 
-    if($numrowsEksp == 0 && $numrowsMag == 0 && $numrowsWyp == 0){ //mozna dodac
-        $instytucja = pg_query($link, "select * from instytucja where nazwa = '$nazwa'");
-        $rowsIns = pg_num_rows($instytucja);
-        $idInstytucji;
+        if($numrowsEksp == 0 && $numrowsMag == 0 && $numrowsWyp == 0){ //mozna dodac
+            $instytucja = pg_query($link, "select * from instytucja where nazwa = '$nazwa'");
+            $rowsIns = pg_num_rows($instytucja);
+            $idInstytucji;
 
-        if($rowsIns == 0){ //nie ma instytucji w bazie
-            $tempp = pg_query($link, "select * from instytucja");
-            $rowInstytucjaa = pg_num_rows($tempp);
-            $indeksinst = pg_query($link, "select max(idinstytucji) from instytucja");
-            if($rowInstytucjaa == 0){
-                $idinstytucji = 0;
+            if($rowsIns == 0){ //nie ma instytucji w bazie
+                $tempp = pg_query($link, "select * from instytucja");
+                $rowInstytucjaa = pg_num_rows($tempp);
+                $indeksinst = pg_query($link, "select max(idinstytucji) from instytucja");
+                if($rowInstytucjaa == 0){
+                    $idinstytucji = 0;
+                }
+                else{
+                    $row = pg_fetch_array($indeksinst, 0);
+                    $idInstytucji = $row["max"] + 1;
+                }
+        
+                $wynik = pg_query($link,
+                "INSERT INTO instytucja VALUES ('" . 
+                pg_escape_string($idInstytucji) . 
+                "','" . pg_escape_string($nazwa) .
+                "','" . pg_escape_string($miasto) . "')"); 
             }
             else{
-                $row = pg_fetch_array($indeksinst, 0);
-                $idInstytucji = $row["max"] + 1;
+                $row = pg_fetch_array($instytucja, 0);
+                $idInstytucji = $row["idinstytucji"];
             }
-    
+
+
+            $indeks = pg_query($link, "select max(idwypozyczenia) from wypozyczenie");
+            $row = pg_fetch_array($indeks, 0);
+            $indeks = $row["max"] + 1;
             $wynik = pg_query($link,
-              "INSERT INTO instytucja VALUES ('" . 
-              pg_escape_string($idInstytucji) . 
-              "','" . pg_escape_string($nazwa) .
-              "','" . pg_escape_string($miasto) . "')"); 
+                    "INSERT INTO wypozyczenie VALUES ('" . 
+                    pg_escape_string($indeks) . 
+                    "','" . pg_escape_string($poczatek) . 
+                    "','" . pg_escape_string($koniec) .
+                    "','" . pg_escape_string($id) .
+                    "','" . pg_escape_string($idInstytucji) . "')"); 
+
+            $_SESSION['dodanoWyp'] = '<h1 class="error-text">Udało się dodać wypozyczenie!</h1>';
+            header('Location: '.$linkdalszy);
         }
+
         else{
-            $row = pg_fetch_array($instytucja, 0);
-            $idInstytucji = $row["idinstytucji"];
+            $_SESSION['terminZajetyWyp'] = '<h1 class="error-text">Niestety w tym terminie eksponat ma juz zaplanowany pobyt w innym miejscu ;((</h1>';
+            header('Location: '.$linkdalszy);
         }
-
-
-        $indeks = pg_query($link, "select max(idwypozyczenia) from wypozyczenie");
-        $row = pg_fetch_array($indeks, 0);
-        $indeks = $row["max"] + 1;
-        $wynik = pg_query($link,
-                  "INSERT INTO wypozyczenie VALUES ('" . 
-                  pg_escape_string($indeks) . 
-                  "','" . pg_escape_string($poczatek) . 
-                  "','" . pg_escape_string($koniec) .
-                  "','" . pg_escape_string($id) .
-                  "','" . pg_escape_string($idInstytucji) . "')"); 
-
-        $_SESSION['dodanoWyp'] = '<h1 class="error-text">Udało się dodać wypozyczenie!</h1>';
-        header('Location: '.$linkdalszy);
     }
-
-    else{
-        $_SESSION['terminZajetyWyp'] = '<h1 class="error-text">Niestety w tym terminie eksponat ma juz zaplanowany pobyt w innym miejscu ;((</h1>';
-        header('Location: '.$linkdalszy);
-    }
-    }
-
     pg_close($link);
 ?> 
 
