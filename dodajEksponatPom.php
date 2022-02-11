@@ -50,7 +50,7 @@
 
         
 
-        if(!is_int($wysokosc) || !is_int($szerokosc) || $szerokosc <= 0 || $wysokosc <= 0 || !is_int($masa) || !($wypozyczalne == "tak" || $wypozyczalne == "nie")){
+        if(!is_int($wysokosc) || !is_int($szerokosc) || $szerokosc <= 0 || $wysokosc <= 0 || $masa <= 0|| !is_int($masa) || !($wypozyczalne == "tak" || $wypozyczalne == "nie")){
             unset($_SESSION['dodanoEksponat']);
             $_SESSION['zledane'] = '<h1 class="error-text">Proszę wprowadzić poprawne dane!</h1>';
             header('Location: dodajEksponat.php');
