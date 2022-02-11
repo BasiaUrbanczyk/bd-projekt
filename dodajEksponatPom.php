@@ -44,6 +44,9 @@
         $imie = ucfirst($imie);
         $nazwisko = ucfirst($nazwisko);
         $tytul = ucfirst($tytul);
+        $wysokosc = intval($wysokosc);
+        $szerokosc = intval($szerokosc);
+        $masa = intval($numrowsArtysta);
 
         
 
